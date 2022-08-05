@@ -1,0 +1,61 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Crud TravelTour</title>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{% static 'main.css' %}">
+
+    </head>
+    <body>
+    
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 offset-md-4">
+                    <h1 class="display-6 fw-bold text-center">Nuestra Tareas</h1>
+                <form action="{% url 'create_task' %}" method="POST" class="card card-body mb-2">
+                    {% csrf_token %}
+        
+                    <label for="title">Titulo:</label>
+                    <input type="text" name="title" placeholder="Escribe un titulo" class="form-control mb-2">
+                    
+                    <label for="title">description:</label>
+                    <textarea name="description" rows="2" placeholder="Escribe descripcion" class="form-control mb-2"></textarea>
+                    <button class="btn btn-success btn-primary">Guardar</button>
+                
+                
+                </form>
+                {% for task in tasks %}
+                    <div class="card card-body text-black mt-2 d-flex flex-row justify-content-between">
+                        <div>
+                        <h4>{{task.title}}</h4>
+                        <p>{{task.description}}</p>
+                        </div>
+                        <form action="{% url 'delete_task' task.id %}" method="POST">
+        
+                            {% csrf_token %}
+        
+                            <button class="btn btn-danger btn-sm">Eliminar</button>
+                        </form>
+                    </div>
+                {% empty %}
+        
+                    <h1 class="display-4 text-center"> Tareas no disponibles </h1>
+        
+                {% endfor %}
+        
+        
+                </div>
+            </div>
+        </div>
+
+        
+    </body>
+</html>
